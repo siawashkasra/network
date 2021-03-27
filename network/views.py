@@ -1,10 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 
-from .models import User
+
+from .models import User, Post
 
 
 def index(request):
@@ -61,3 +66,36 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+
+@csrf_exempt
+@login_required
+def post(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        print(data)
+        current_user = request.user
+        try:
+            post = Post(
+                user=current_user, 
+                content=data.get("content")
+                )
+
+            post.save()
+        except Exception as e:
+            return render(request, "network/index.html", {
+                "message": "Something went wrong!"
+            })
+        
+        return JsonResponse({"message": "Post created successfully."}, status=200)
+
+
+
+def load_posts(request):
+    posts = Post.objects.all()
+    print(posts)
+    return JsonResponse([post.serialize() for post in posts], safe=False)
+
+
