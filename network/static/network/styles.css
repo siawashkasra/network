@@ -1,0 +1,18 @@
+
+.card {
+    margin: auto;
+}
+
+.post {
+    max-width: 540px;
+    margin: auto;
+}
+
+.btn-outline-info {
+    float: right;
+    margin-bottom: 1px;
+}
+
+.card-title {
+    margin-top: 15px !important;
+}

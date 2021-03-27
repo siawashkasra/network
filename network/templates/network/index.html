@@ -1,5 +1,48 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    
+    
+<div class="container-fluid">
+
+    <form class="post">
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="validationTextarea" class="form-label">Create Post</label>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-outline-info btn-sm">Post</button>
+                </div>
+            </div>
+            <textarea class="form-control" id="" placeholder="What's on your mind!" required></textarea>
+        </div>
+    </form>
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="row">
+                <div class="col-md-2">
+                    <svg height="50" width="50">
+                        <g>
+                            <circle cx="30" cy="30" r="20" fill="#0dcaf0" text="Test"></circle>
+                            <text x="19" y="35" font-family="Times" font-size="" fill="white">SK</text>
+                        </g>
+                    </svg>
+                </div>
+                <div class="col-md-10">
+                    <h6 class="card-title">Siawash Kasra</h6>
+                    <p class="card-text"><small class="text-muted">3 mins ago</small></p>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card-body">
+                    
+                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 {% endblock %}
