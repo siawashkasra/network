@@ -1,6 +1,7 @@
 
 .card {
     margin: auto;
+    max-width: 540px;
 }
 
 .post {
