@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     .then(response =>  {
         if (response.status == 200) {
-            console.log("It worked")
+            document.querySelector("#content").value ='',
             load_posts();
         }
         
@@ -80,7 +80,7 @@ function create_post_view(post) {
     circle.setAttribute("fill", fill="#0dcaf0")
 
     const text = document.createElementNS("http://www.w3.org/2000/svg", "text")
-    text.setAttribute("x", "19")
+    text.setAttribute("x", "20")
     text.setAttribute("y", "35")
     text.setAttribute("font-family", "Times")
     text.setAttribute("fill", "white")
@@ -99,7 +99,7 @@ function create_post_view(post) {
 
     const small = document.createElement("small")
     small.classList.add("text-muted")
-    small.textContent = post.timestamp
+    small.textContent = get_time(post.timestamp)
 
     const col = document.createElement("div")
     col.classList.add("col")
@@ -164,4 +164,9 @@ function get_initials(first_name, last_name) {
 
     return first + last
 
+}
+
+
+function get_time(po_time) {
+    return new Date(po_time).toDateString()
 }
