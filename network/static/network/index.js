@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.json())
     .then(posts => {
 
+        console.log(posts)
         for (let post = 0; post < posts.length; post++) {
             create_post_view(posts[post])
         }
@@ -83,7 +84,7 @@ function create_post_view(post) {
     text.setAttribute("y", "35")
     text.setAttribute("font-family", "Times")
     text.setAttribute("fill", "white")
-    text.textContent = post.user
+    text.textContent = get_initials(post.first_name, post.last_name)
 
     const div_col_md_10 = document.createElement("div")
     div_col_md_10.classList.add("col-md-10")
@@ -131,9 +132,12 @@ function create_post_view(post) {
 
     div_card.appendChild(div_parent_row)
 
-    target = document.querySelector(".post")
-  
-    target.after(div_card)
+    if (document.contains(document.querySelector("#placeholder"))) {
+
+        target = document.querySelector("#placeholder")
+        target.after(div_card)
+    }
+    
 
 }
 
@@ -152,3 +156,12 @@ function clear_DOM() {
       }
         
     }
+
+
+function get_initials(first_name, last_name) {
+    first = first_name.substr(0, 1); 
+    last = last_name.substr(0, 1); 
+
+    return first + last
+
+}
