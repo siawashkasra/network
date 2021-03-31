@@ -6,7 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   
     // By default, load the 10 recent posts
-    load_posts();
+
+    if (location.pathname == '/') {
+        load_posts();
+    }
+    
   });
 
   function post(event) {
@@ -55,6 +59,7 @@ function create_post_view(post) {
     
     const div_card = document.createElement("div")
     div_card.classList.add("card")
+    div_card.classList.add("card-post")
     div_card.classList.add("mb-3")
 
     const div_parent_row = document.createElement("div")
@@ -91,7 +96,11 @@ function create_post_view(post) {
 
     const h6 = document.createElement("h6")
     h6.classList.add("card-title")
-    h6.textContent = post.user
+
+    const a = document.createElement("a")
+    a.href = "/profile/" + post.uid
+    a.textContent = post.user
+    h6.appendChild(a)
 
     const p = document.createElement("p")
     p.classList.add("card-text")
@@ -144,9 +153,9 @@ function create_post_view(post) {
 
 function clear_DOM() {
 
-    if(document.contains(document.querySelector(".card"))) {
+    if(document.contains(document.querySelector(".card-post"))) {
       
-      emails = document.querySelectorAll(".card")
+      emails = document.querySelectorAll(".card-post")
   
         emails.forEach(element => {
   

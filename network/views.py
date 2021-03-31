@@ -16,6 +16,13 @@ def index(request):
     return render(request, "network/index.html")
 
 
+@login_required
+def profile(request, uid):
+    posts = Post.objects.filter(user_id=uid).order_by("-timestamp")
+    user = User.objects.filter(id=uid).first()
+    return render(request, "network/profile.html", {"user": user, "posts": posts})
+
+
 def login_view(request):
     if request.method == "POST":
 
@@ -77,7 +84,6 @@ def post(request):
     if request.method == 'POST':
 
         data = json.loads(request.body)
-        print(data)
         current_user = request.user
         try:
             post = Post(
@@ -97,7 +103,4 @@ def post(request):
 
 def load_posts(request):
     posts = Post.objects.all()
-    print(posts)
     return JsonResponse([post.serialize() for post in posts], safe=False)
-
-

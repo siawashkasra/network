@@ -1,13 +1,13 @@
 
-.card {
+/* .card {
     margin: auto;
     max-width: 540px;
-}
+} */
 
-.post {
+/* .post {
     max-width: 540px;
     margin: auto;
-}
+} */
 
 .btn-outline-info {
     float: right;
@@ -37,4 +37,20 @@
 
 .register h2, .register p, .login h2, .login p  {
     text-align: center;
+}
+
+.profile {
+    text-align: center;
+}
+
+.p-row {
+    margin-top: 30px;
+}
+
+.nav {
+    background-color: cornflowerblue;
+}
+
+.nav-link {
+    color: white;
 }

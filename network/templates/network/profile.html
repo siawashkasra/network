@@ -1,0 +1,78 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+
+{% if message %}
+        <div>{{ message }}</div>
+{% endif %}
+    
+<div class="container-fluid">
+
+    <div class="row p-row">
+        <div class="col-md-1">
+        </div>
+        {% if user %}
+            <div class="col-md-3">
+                <div class="card profile" style="width: 18rem;">
+                    <div class="col-md-2">
+                        <svg height="50" width="50">
+                            <g>
+                                <circle cx="30" cy="30" r="20" fill="#0dcaf0" text="Test"></circle>
+                                <text x="19" y="35" font-family="Times" font-size="" fill="white">{{ user.get_initials }}</text>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user.first_name}} {{ user.last_name }}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Following</li>
+                        <li class="list-group-item">Followers</li>
+                    </ul>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-outline-success">Follow</button>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-md-4">
+            {% if user.is_authenticated %}
+        
+                 {% for post in posts %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <svg height="50" width="50">
+                                        <g>
+                                            <circle cx="30" cy="30" r="20" fill="#0dcaf0" text="Test"></circle>
+                                            <text x="19" y="35" font-family="Times" font-size="" fill="white">{{ user.get_initials }}</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                                <div class="col-md-10">
+                                    <h6 class="card-title">{{ user.first_name}} {{ user.last_name }}</h6>
+                                    <p class="card-text"><small class="text-muted">{{ post.timestamp }}</small></p>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card-body">
+
+                                    <p class="card-text">{{ post.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 {% endfor %}
+
+            {% endif %}
+        </div>
+        <div class="col-md-2">
+        
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+    
+
+{% endblock %}
