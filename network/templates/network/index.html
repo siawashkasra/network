@@ -8,32 +8,6 @@
     
 <div class="container-fluid">
 
-    <div class="row p-row">
-        <div class="col-md-1">
-        </div>
-        <div class="col-md-3">
-            <div class="card profile" style="width: 18rem;">
-                <div class="col-md-2">
-                    <svg height="50" width="50">
-                        <g>
-                            <circle cx="30" cy="30" r="20" fill="#0dcaf0" text="Test"></circle>
-                            <text x="19" y="35" font-family="Times" font-size="" fill="white"></text>
-                        </g>
-                    </svg>
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Siawash Kasra</h5>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Following</li>
-                    <li class="list-group-item">Followers</li>
-                </ul>
-                <div class="card-body">
-                    <button type="button" class="btn btn-outline-success">Follow</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
             {% if user.is_authenticated %}
                 <form class="post">
                     <div class="mb-3">
@@ -50,12 +24,5 @@
                 </form>
             {% endif %}
             <div id="placeholder"></div>
-        </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-2">
-        </div>
-    </div>
     
-
 {% endblock %}

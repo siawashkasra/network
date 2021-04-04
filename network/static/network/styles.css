@@ -1,13 +1,15 @@
 
-/* .card {
+.card {
     margin: auto;
     max-width: 540px;
-} */
+    margin-top: 30px;
+}
 
-/* .post {
+.post {
     max-width: 540px;
     margin: auto;
-} */
+    margin-top: 30px;
+}
 
 .btn-outline-info {
     float: right;
@@ -41,10 +43,6 @@
 
 .profile {
     text-align: center;
-}
-
-.p-row {
-    margin-top: 30px;
 }
 
 .nav {
