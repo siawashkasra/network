@@ -22,7 +22,7 @@ def index(request):
 def profile(request, uid):
     posts = Post.objects.filter(user_id=uid).order_by("-timestamp")
     user = User.objects.filter(id=uid).first()
-    return render(request, "network/profile.html", {"user": user, "posts": posts})
+    return render(request, "network/profile.html", {"user": user, "posts": posts, "is_following": user.followings.filter(user_id=request.user).exists()})
 
 
 
@@ -138,4 +138,19 @@ def follow(request, uid):
     f.following_id.add(profile)
     f.user_id.add(request.user)
 
+    return HttpResponseRedirect(reverse("profile", args=[uid]))
+
+
+
+
+@csrf_exempt
+@login_required
+def unfollow(request, uid):
+    profile = User.objects.filter(id=uid).get()
+
+    if profile.followings.filter(user_id=request.user).exists():
+        f = Following.objects.filter(user_id=request.user).get()
+        f.following_id.remove(profile)
+        f.user_id.remove(request.user)
+        
     return HttpResponseRedirect(reverse("profile", args=[uid]))
