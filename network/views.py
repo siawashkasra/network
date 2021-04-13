@@ -1,3 +1,4 @@
+from typing import Counter
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -22,7 +23,12 @@ def index(request):
 def profile(request, uid):
     posts = Post.objects.filter(user_id=uid).order_by("-timestamp")
     user = User.objects.filter(id=uid).first()
-    return render(request, "network/profile.html", {"user": user, "posts": posts, "is_following": user.followings.filter(user_id=request.user).exists()})
+
+    return render(request, "network/profile.html", {
+        "user": user, 
+        "posts": posts, 
+        "is_following": user.followeds.filter(follower_id=request.user).exists(),
+        })
 
 
 
@@ -128,15 +134,15 @@ def follow(request, uid):
                 "message": "You can't follow yourself!"
             })
         
-    if  profile.followings.filter(user_id=request.user).exists():
+    if  profile.followeds.filter(follower_id=request.user).exists():
          return render(request, "network/profile.html", {
                 "message": "You are already following this user!"
             })  
 
     f = Following()
     f.save()
-    f.following_id.add(profile)
-    f.user_id.add(request.user)
+    f.followed_id.add(profile)
+    f.follower_id.add(request.user)
 
     return HttpResponseRedirect(reverse("profile", args=[uid]))
 
@@ -148,9 +154,9 @@ def follow(request, uid):
 def unfollow(request, uid):
     profile = User.objects.filter(id=uid).get()
 
-    if profile.followings.filter(user_id=request.user).exists():
-        f = Following.objects.filter(user_id=request.user).get()
-        f.following_id.remove(profile)
-        f.user_id.remove(request.user)
-        
+    if profile.followeds.filter(follower_id=request.user).exists():
+        follow_obj = Following.objects.filter(follower_id=request.user.id, followed_id=profile.id).get()
+        follow_obj.followed_id.remove(profile)
+        follow_obj.follower_id.remove(request.user)
+
     return HttpResponseRedirect(reverse("profile", args=[uid]))

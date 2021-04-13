@@ -53,5 +53,5 @@ class Post(models.Model):
 
 
 class Following(models.Model):
-    user_id = models.ManyToManyField(User, related_name="followers")
-    following_id = models.ManyToManyField(User, related_name="followings")
+    follower_id = models.ManyToManyField(User, related_name="followers")
+    followed_id = models.ManyToManyField(User, related_name="followeds")

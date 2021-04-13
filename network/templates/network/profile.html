@@ -25,9 +25,10 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ user.first_name}} {{ user.last_name }}</h5>
                     </div>
+                    
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Following</li>
-                        <li class="list-group-item">Followers</li>
+                        <li class="list-group-item">Following  <span class="badge bg-dark">{{ user.followers.count }}</span></li>
+                        <li class="list-group-item">Followers  <span class="badge bg-dark">{{ user.followeds.count }}</span></li>
                     </ul>
                     <div class="card-body">
                     {% if is_following %}
