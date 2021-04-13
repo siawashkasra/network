@@ -7,13 +7,15 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
+from .models import Following, User, Post
 
 
-from .models import User, Post
 
 
 def index(request):
     return render(request, "network/index.html")
+
+
 
 
 @login_required
@@ -21,6 +23,8 @@ def profile(request, uid):
     posts = Post.objects.filter(user_id=uid).order_by("-timestamp")
     user = User.objects.filter(id=uid).first()
     return render(request, "network/profile.html", {"user": user, "posts": posts})
+
+
 
 
 def login_view(request):
@@ -43,9 +47,13 @@ def login_view(request):
         return render(request, "network/login.html")
 
 
+
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
+
+
 
 
 def register(request):
@@ -78,6 +86,7 @@ def register(request):
 
 
 
+
 @csrf_exempt
 @login_required
 def post(request):
@@ -101,6 +110,32 @@ def post(request):
 
 
 
+
 def load_posts(request):
     posts = Post.objects.all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
+
+
+
+
+@csrf_exempt
+@login_required
+def follow(request, uid):
+    profile = User.objects.filter(id=uid).get()
+
+    if request.user.id == profile.id:
+        return render(request, "network/profile.html", {
+                "message": "You can't follow yourself!"
+            })
+        
+    if  profile.followings.filter(user_id=request.user).exists():
+         return render(request, "network/profile.html", {
+                "message": "You are already following this user!"
+            })  
+
+    f = Following()
+    f.save()
+    f.following_id.add(profile)
+    f.user_id.add(request.user)
+
+    return HttpResponseRedirect(reverse("profile", args=[uid]))
