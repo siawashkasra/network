@@ -160,3 +160,11 @@ def unfollow(request, uid):
         follow_obj.follower_id.remove(request.user)
 
     return HttpResponseRedirect(reverse("profile", args=[uid]))
+
+
+
+
+@csrf_exempt
+@login_required
+def following(request):
+    pass
