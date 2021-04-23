@@ -167,4 +167,7 @@ def unfollow(request, uid):
 @csrf_exempt
 @login_required
 def following(request):
-    pass
+    posts = map(lambda following: 
+                Post.objects.filter(user_id=following.followed_id.get().id).order_by("-timestamp"), 
+                            Following.objects.filter(follower_id=request.user.id))
+    return render(request, "network/following.html", {'posts': list(posts)})
