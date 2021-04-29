@@ -9,24 +9,35 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 from .models import Following, User, Post
+from django.core.paginator import Paginator
 
 
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all().order_by('-timestamp')
+    
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "network/index.html", {'posts': page_obj})
 
 
 
 
 @login_required
-def profile(request, uid):
-    posts = Post.objects.filter(user_id=uid).order_by("-timestamp")
-    user = User.objects.filter(id=uid).first()
-
+def profile(request, username):
+    user = User.objects.filter(username=username).first()
+    posts = Post.objects.filter(user_id=user.id).order_by("-timestamp")
+    
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
     return render(request, "network/profile.html", {
         "user": user, 
-        "posts": posts, 
+        "posts": page_obj, 
         "is_following": user.followeds.filter(follower_id=request.user).exists(),
         })
 
@@ -98,12 +109,13 @@ def register(request):
 def post(request):
     if request.method == 'POST':
 
-        data = json.loads(request.body)
+        # data = json.loads(request.body)
         current_user = request.user
         try:
             post = Post(
                 user=current_user, 
-                content=data.get("content")
+                # content=data.get("content")
+                content=request.POST['content']
                 )
 
             post.save()
@@ -112,14 +124,19 @@ def post(request):
                 "message": "Something went wrong!"
             })
         
-        return JsonResponse({"message": "Post created successfully."}, status=200)
+        return redirect("index")
 
 
 
 
 def load_posts(request):
     posts = Post.objects.all()
-    return JsonResponse([post.serialize() for post in posts], safe=False)
+    
+    paginator = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return JsonResponse([post.serialize() for post in page_obj], safe=False)
 
 
 
@@ -167,7 +184,13 @@ def unfollow(request, uid):
 @csrf_exempt
 @login_required
 def following(request):
+    
     posts = map(lambda following: 
                 Post.objects.filter(user_id=following.followed_id.get().id).order_by("-timestamp"), 
                             Following.objects.filter(follower_id=request.user.id))
-    return render(request, "network/following.html", {'posts': list(posts)})
+
+    paginator = Paginator(list(posts), 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "network/following.html", {'posts': page_obj})

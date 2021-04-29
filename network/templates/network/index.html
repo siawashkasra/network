@@ -8,21 +8,22 @@
     
 <div class="container-fluid">
 
-            {% if user.is_authenticated %}
-                <form class="post">
-                    <div class="mb-3">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="validationTextarea" class="form-label">Create Post</label>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-outline-info btn-sm">Post</button>
-                            </div>
-                        </div>
-                        <textarea class="form-control" id="content" placeholder="What's on your mind!" required></textarea>
+    {% if user.is_authenticated %}
+        <form action="{% url 'post' %}" class="post" method="POST">
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="validationTextarea" class="form-label">Create Post</label>
                     </div>
-                </form>
-            {% endif %}
-            <div id="placeholder"></div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-outline-info btn-sm">Post</button>
+                    </div>
+                </div>
+                <textarea class="form-control" name="content" id="content" placeholder="What's on your mind!" required></textarea>
+            </div>
+        </form>
+    {% endif %}
+
+    {% include 'network/posts.html' %}
     
 {% endblock %}

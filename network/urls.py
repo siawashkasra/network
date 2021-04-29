@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("profile/<int:uid>", views.profile, name="profile"),
+    path("profile/<str:username>", views.profile, name="profile"),
     path("profile/follow/<int:uid>", views.follow, name="follow"),
     path("profile/unfollow/<int:uid>", views.unfollow, name="unfollow"),
     path("login", views.login_view, name="login"),
@@ -15,5 +15,5 @@ urlpatterns = [
 
      # API Routes
     path("post", views.post, name="post"),
-    path("posts", views.load_posts, name="load_posts"),
+    # path("posts", views.load_posts, name="load_posts"),
 ]

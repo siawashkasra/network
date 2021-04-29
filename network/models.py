@@ -46,10 +46,7 @@ class Post(models.Model):
         
         return {
             "id": self.id,
-            "uid": self.user.id,
-            "user": self.user.username,
-            "first_name": self.user.first_name,
-            "last_name": self.user.last_name,
+            "author": self.user.username,
             "content": self.content,
             "timestamp": self.timestamp,
         }
