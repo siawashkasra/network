@@ -20,7 +20,7 @@
                         <div class="col-3">
                             {% if user.is_authenticated and user.username == post.user.username %}
                                 <h6 class="card-title">
-                                    <a role="button" id="{{ post.id }}" href="#" data-bs-toggle="modal" data-bs-target="#edit_post">Edit</a>
+                                    <a role="button" id="post{{ post.id }}" href="#" data-bs-toggle="modal" data-bs-target="#edit_post" onclick="edit_post(this.id)">Edit</a>
                                 </h6>
                             {% endif %}
                         </div>
@@ -32,7 +32,7 @@
             <div class="col">
                 <div class="card-body">
 
-                    <p class="card-text">{{ post.content }}</p>
+                    <p class="card-text" id="cont{{ post.id }}">{{ post.content }}</p>
                 </div>
             </div>
         </div>
@@ -40,3 +40,4 @@
 {% endfor %}
 
 {% include 'network/paginations.html' %}
+{% include 'network/modal.html' %}

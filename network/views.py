@@ -1,7 +1,7 @@
 from typing import Counter
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, request
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -194,3 +194,18 @@ def following(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, "network/following.html", {'posts': page_obj})
+
+
+
+
+@csrf_exempt
+@login_required
+def update_post(request, id):
+    post = Post.objects.get(id=id)
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        post.content = data.get("content")
+        post.save()
+
+        return JsonResponse({"message": "Post updated successfully."}, status=201)
+
