@@ -13,7 +13,7 @@
                 <div class="col-md-10">
                     <div class="row">
                         <div class="col-6">
-                            <h6 class="card-title">{{ post.user.first_name}} {{ post.user.last_name }}</h6>
+                            <a href="{% url 'profile' post.user.username %}"><h6 class="card-title">{{ post.user.first_name}} {{ post.user.last_name }}</h6></a>
                         </div>
                         <div class="col-3">
                         </div>

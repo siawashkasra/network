@@ -143,8 +143,8 @@ def load_posts(request):
 
 @csrf_exempt
 @login_required
-def follow(request, uid):
-    profile = User.objects.filter(id=uid).get()
+def follow(request, username):
+    profile = User.objects.filter(username=username).get()
 
     if request.user.id == profile.id:
         return render(request, "network/profile.html", {
@@ -161,22 +161,22 @@ def follow(request, uid):
     f.followed_id.add(profile)
     f.follower_id.add(request.user)
 
-    return HttpResponseRedirect(reverse("profile", args=[uid]))
+    return HttpResponseRedirect(reverse("profile", args=[username]))
 
 
 
 
 @csrf_exempt
 @login_required
-def unfollow(request, uid):
-    profile = User.objects.filter(id=uid).get()
+def unfollow(request, username):
+    profile = User.objects.filter(username=username).get()
 
     if profile.followeds.filter(follower_id=request.user).exists():
         follow_obj = Following.objects.filter(follower_id=request.user.id, followed_id=profile.id).get()
         follow_obj.followed_id.remove(profile)
         follow_obj.follower_id.remove(request.user)
 
-    return HttpResponseRedirect(reverse("profile", args=[uid]))
+    return HttpResponseRedirect(reverse("profile", args=[username]))
 
 
 

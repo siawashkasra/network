@@ -32,9 +32,9 @@
                     </ul>
                     <div class="card-body">
                     {% if is_following %}
-                        <a href="{% url 'unfollow' user.id %}" role="button" class="btn btn-outline-danger">Unfollow</a>
+                        <a href="{% url 'unfollow' user.username %}" role="button" class="btn btn-outline-danger">Unfollow</a>
                     {% else %}
-                        <a href="{% url 'follow' user.id %}" role="button" class="btn btn-outline-success">Follow</a>
+                        <a href="{% url 'follow' user.username %}" role="button" class="btn btn-outline-success">Follow</a>
                     {% endif %}
                     </div>
                 </div>
