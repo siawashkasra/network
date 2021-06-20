@@ -10,6 +10,7 @@ from django.http import JsonResponse
 import json
 from .models import Following, Like, User, Post
 from django.core.paginator import Paginator
+from django.contrib import messages
 
 
 
@@ -150,20 +151,20 @@ def follow(request, username):
     profile = User.objects.filter(username=username).get()
 
     if request.user.id == profile.id:
-        return render(request, "network/profile.html", {
-                "message": "You can't follow yourself!"
-            })
-        
+        messages.warning(request, "You can't follow yourself!")
+        return HttpResponseRedirect(reverse("profile", args=[username]))
+
     if  profile.followeds.filter(follower_id=request.user).exists():
-         return render(request, "network/profile.html", {
-                "message": "You are already following this user!"
-            })  
+        messages.warning(request, "You are already following this user!")
+        return HttpResponseRedirect(reverse("profile", args=[username]))  
+
 
     f = Following()
     f.save()
     f.followed_id.add(profile)
     f.follower_id.add(request.user)
 
+    messages.success(request, "You have started following this user!")
     return HttpResponseRedirect(reverse("profile", args=[username]))
 
 
@@ -179,6 +180,7 @@ def unfollow(request, username):
         follow_obj.followed_id.remove(profile)
         follow_obj.follower_id.remove(request.user)
 
+    messages.info(request, "You have stopped following this user!")
     return HttpResponseRedirect(reverse("profile", args=[username]))
 
 
