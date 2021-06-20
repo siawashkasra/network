@@ -32,10 +32,19 @@
             <div class="col">
                 <div class="card-body">
                     <p class="card-text" id="cont{{ post.id }}">{{ post.content }}</p>
-                    {% if user.id in post.has_been_liked %}
-                        <button class="btn btn-info" type="button" id="{{ post.id }}" onclick="unlike(this)"><i class="far fa-thumbs-up"></i> <span id="p{{ post.id }}">{{ post.like_count }}</span></button>
+                    {% if user.is_authenticated %}
+                        {% if user.id in post.has_been_liked %}
+                            <button class="btn btn-info" type="button" id="{{ post.id }}" onclick="unlike(this)"><i class="far fa-thumbs-up"></i> <span id="p{{ post.id }}">{{ post.like_count }}</span></button>
+                        {% else %}
+                            <button class="btn" type="button" id="{{ post.id }}" onclick="like(this)"><i class="far fa-thumbs-up"></i> <span id="p{{ post.id }}">{{ post.like_count }}</span></button>
+                        {% endif %}
                     {% else %}
-                        <button class="btn" type="button" id="{{ post.id }}" onclick="like(this)"><i class="far fa-thumbs-up"></i> <span id="p{{ post.id }}">{{ post.like_count }}</span></button>
+                        <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title="You must be signed in to rate!">
+                            <button class="btn" type="button" disabled>
+                                <i class="far fa-thumbs-up"></i> 
+                                <span>{{ post.like_count }}</span>
+                            </button>
+                        </span>
                     {% endif %}
                     
                 </div>

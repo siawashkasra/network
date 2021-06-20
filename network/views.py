@@ -26,7 +26,6 @@ def index(request):
 
 
 
-@login_required
 def profile(request, username):
     user = User.objects.filter(username=username).first()
     posts = Post.objects.filter(user_id=user.id).order_by("-timestamp")
@@ -34,11 +33,15 @@ def profile(request, username):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+    is_following = False
+
+    if request.user.is_authenticated:
+        is_following = user.followeds.filter(follower_id=request.user).exists()
+
     return render(request, "network/profile.html", {
         "profile": user, 
         "posts": page_obj, 
-        "is_following": user.followeds.filter(follower_id=request.user).exists(),
+        "is_following": is_following,
         })
 
 

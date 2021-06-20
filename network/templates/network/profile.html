@@ -31,21 +31,21 @@
                         <li class="list-group-item">Followers  <span class="badge bg-dark">{{ profile.followeds.count }}</span></li>
                     </ul>
                     <div class="card-body">
-                    {% if is_following %}
-                        <a href="{% url 'unfollow' profile.username %}" role="button" class="btn btn-outline-danger">Unfollow</a>
-                    {% else %}
-                        <a href="{% url 'follow' profile.username %}" role="button" class="btn btn-outline-success">Follow</a>
+                    {% if user.is_authenticated %}
+                        {% if is_following %}
+                            <a href="{% url 'unfollow' profile.username %}" role="button" class="btn btn-outline-danger">Unfollow</a>
+                        {% else %}
+                            <a href="{% url 'follow' profile.username %}" role="button" class="btn btn-outline-success">Follow</a>
+                        {% endif %}
                     {% endif %}
                     </div>
                 </div>
             </div>
         {% endif %}
         <div class="col-md-4">
-            {% if user.is_authenticated %}
         
             {% include "network/posts.html" %}
 
-            {% endif %}
         </div>
         <div class="col-md-2">
         
