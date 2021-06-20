@@ -21,7 +21,7 @@
                     </svg>
                 </div>
                 <div class="col-md-10">
-                    <h6 class="card-title">{{ post.first.user.get_full_name }}</h6>
+                    <a href="{% url 'profile' post.first.user.username %}"><h6 class="card-title">{{ post.first.user.first_name}} {{ post.first.user.last_name }}</h6></a>
                     <p class="card-text"><small class="text-muted">{{ post.first.timestamp }}</small></p>
                 </div>
             </div>
@@ -35,6 +35,8 @@
     </div>
 {% endfor %}
 
-{% include 'network/paginations.html' %}
+{% if post %}
+    {% include 'network/paginations.html' %}
+{% endif %}
 
 {% endblock %}
