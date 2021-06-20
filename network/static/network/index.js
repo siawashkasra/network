@@ -47,12 +47,18 @@ function update_post(id, data) {
 
 
 function like(x) {
-    count = document.querySelector("#p" + String(x.id)).innerHTML
-    count = parseInt(count) + 1
-    document.querySelector("#p" + String(x.id)).innerHTML = String(count)
-    update_like(x.id)
+    if(x.classList.contains('btn-info')) {
+        count = document.querySelector("#p" + String(x.id)).innerHTML
+        count = parseInt(count) - 1
+        document.querySelector("#p" + String(x.id)).innerHTML = String(count)
+        update_unlike(x.id)
+    } else {
+        count = document.querySelector("#p" + String(x.id)).innerHTML
+        count = parseInt(count) + 1
+        document.querySelector("#p" + String(x.id)).innerHTML = String(count)
+        update_like(x.id)
+    }
     x.classList.toggle("btn-info")
-
 }
 
 function update_like(pid) {
@@ -74,10 +80,17 @@ function update_like(pid) {
 
 
 function unlike(x) {
-    count = document.querySelector("#p" + String(x.id)).innerHTML
-    count = parseInt(count) - 1
-    document.querySelector("#p" + String(x.id)).innerHTML = String(count)
-    update_unlike(x.id)
+    if(x.classList.contains('btn-info')) {
+        count = document.querySelector("#p" + String(x.id)).innerHTML
+        count = parseInt(count) - 1
+        document.querySelector("#p" + String(x.id)).innerHTML = String(count)
+        update_unlike(x.id)
+
+    } else {
+        count = document.querySelector("#p" + String(x.id)).innerHTML
+        count = parseInt(count) + 1
+        document.querySelector("#p" + String(x.id)).innerHTML = String(count)
+    }
     x.classList.toggle("btn-info")
 }
 
