@@ -22,6 +22,7 @@ class User(AbstractUser):
 
 
 
+
     def serialize(self):
 
          return {
@@ -30,13 +31,6 @@ class User(AbstractUser):
             "first_name": self.first_name,
             "last_name": self.last_name,
         }
-
-
-
-
-    def has_liked(self):
-        # print(self.users.filter(user_id=self.id))
-        return True
 
 
 
@@ -65,6 +59,8 @@ class Post(models.Model):
         return list(self.posts.values_list('user_id', flat=True))
 
 
+
+
     def like_count(self):
         return self.posts.filter(post_id=self.id).count();
 
@@ -74,6 +70,7 @@ class Post(models.Model):
 class Following(models.Model):
     follower_id = models.ManyToManyField(User, related_name="followers")
     followed_id = models.ManyToManyField(User, related_name="followeds")
+
 
 
 

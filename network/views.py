@@ -215,13 +215,8 @@ def update_post(request, id):
 @csrf_exempt
 @login_required
 def like(request, pid):
-    print("here is the post id", pid)
     if request.method == 'POST':
-        post = Post.objects.filter(id=pid).get()
-        # if  request.user.users.filter(user_id=request.user).exists():
-        #  return render(request, "network/profile.html", {
-        #         "message": "You are already following this user!"
-        #     })  
+        post = Post.objects.filter(id=pid).get() 
 
         l = Like()
         l.save()
@@ -237,7 +232,6 @@ def like(request, pid):
 def unlike(request, pid):
     if request.method == 'PUT':
         post = Post.objects.filter(id=pid).get()
-        print("hereerere", pid, post)
         if post.posts.filter(post_id=pid).exists():
             like_obj = Like.objects.filter(user_id=request.user.id, post_id=post.id).get()
             like_obj.post_id.remove(post)

@@ -29,7 +29,7 @@ document.querySelector("#update").addEventListener("submit", function(event){
 
 
 function update_post(id, data) {
-    fetch('post/update/' + id, {
+    fetch('/post/update/' + id, {
         method: 'PUT', // or 'PUT'
         headers: {
             'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ function like(x) {
 
 function update_like(pid) {
     
-    fetch('post/like/' + pid, {
+    fetch('/post/like/' + pid, {
         method: 'POST', // or 'PUT'
         headers: {
             'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ function unlike(x) {
 
 function update_unlike(pid) {
     
-    fetch('post/unlike/' + pid, {
+    fetch('/post/unlike/' + pid, {
         method: 'PUT', // or 'POST'
         headers: {
             'Content-Type': 'application/json',
