@@ -11,30 +11,30 @@
     <div class="row p-row">
         <div class="col-md-1">
         </div>
-        {% if user %}
+        {% if profile %}
             <div class="col-md-3">
                 <div class="card profile" style="width: 18rem;">
                     <div class="col-md-2">
                         <svg height="50" width="50">
                             <g>
                                 <circle cx="30" cy="30" r="20" fill="#0dcaf0" text="Test"></circle>
-                                <text x="19" y="35" font-family="Times" font-size="" fill="white">{{ user.get_initials }}</text>
+                                <text x="19" y="35" font-family="Times" font-size="" fill="white">{{ profile.get_initials }}</text>
                             </g>
                         </svg>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ user.first_name}} {{ user.last_name }}</h5>
+                        <h5 class="card-title">{{ profile.first_name}} {{ profile.last_name }}</h5>
                     </div>
                     
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Following  <span class="badge bg-dark">{{ user.followers.count }}</span></li>
-                        <li class="list-group-item">Followers  <span class="badge bg-dark">{{ user.followeds.count }}</span></li>
+                        <li class="list-group-item">Following  <span class="badge bg-dark">{{ profile.followers.count }}</span></li>
+                        <li class="list-group-item">Followers  <span class="badge bg-dark">{{ profile.followeds.count }}</span></li>
                     </ul>
                     <div class="card-body">
                     {% if is_following %}
-                        <a href="{% url 'unfollow' user.username %}" role="button" class="btn btn-outline-danger">Unfollow</a>
+                        <a href="{% url 'unfollow' profile.username %}" role="button" class="btn btn-outline-danger">Unfollow</a>
                     {% else %}
-                        <a href="{% url 'follow' user.username %}" role="button" class="btn btn-outline-success">Follow</a>
+                        <a href="{% url 'follow' profile.username %}" role="button" class="btn btn-outline-success">Follow</a>
                     {% endif %}
                     </div>
                 </div>

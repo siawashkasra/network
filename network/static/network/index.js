@@ -44,3 +44,57 @@ function update_post(id, data) {
             console.error('Error:', error);
             });
 }
+
+
+function like(x) {
+    count = document.querySelector("#p" + String(x.id)).innerHTML
+    count = parseInt(count) + 1
+    document.querySelector("#p" + String(x.id)).innerHTML = String(count)
+    update_like(x.id)
+    x.classList.toggle("btn-info")
+
+}
+
+function update_like(pid) {
+    
+    fetch('post/like/' + pid, {
+        method: 'POST', // or 'PUT'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+            })
+            .catch((error) => {
+            console.error('Error:', error);
+            });
+}
+
+
+function unlike(x) {
+    count = document.querySelector("#p" + String(x.id)).innerHTML
+    count = parseInt(count) - 1
+    document.querySelector("#p" + String(x.id)).innerHTML = String(count)
+    update_unlike(x.id)
+    x.classList.toggle("btn-info")
+}
+
+
+function update_unlike(pid) {
+    
+    fetch('post/unlike/' + pid, {
+        method: 'PUT', // or 'POST'
+        headers: {
+            'Content-Type': 'application/json',
+        },
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+            })
+            .catch((error) => {
+            console.error('Error:', error);
+            });
+}

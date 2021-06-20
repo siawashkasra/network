@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
-from .models import Following, User, Post
+from .models import Following, Like, User, Post
 from django.core.paginator import Paginator
 
 
@@ -36,7 +36,7 @@ def profile(request, username):
     page_obj = paginator.get_page(page_number)
     
     return render(request, "network/profile.html", {
-        "user": user, 
+        "profile": user, 
         "posts": page_obj, 
         "is_following": user.followeds.filter(follower_id=request.user).exists(),
         })
@@ -209,3 +209,40 @@ def update_post(request, id):
 
         return JsonResponse({"message": "Post updated successfully."}, status=201)
 
+
+
+
+@csrf_exempt
+@login_required
+def like(request, pid):
+    print("here is the post id", pid)
+    if request.method == 'POST':
+        post = Post.objects.filter(id=pid).get()
+        # if  request.user.users.filter(user_id=request.user).exists():
+        #  return render(request, "network/profile.html", {
+        #         "message": "You are already following this user!"
+        #     })  
+
+        l = Like()
+        l.save()
+        l.user_id.add(request.user)
+        l.post_id.add(post)
+        return JsonResponse({"message": "Post liked successfully."}, status=201)
+
+
+
+
+@csrf_exempt
+@login_required
+def unlike(request, pid):
+    if request.method == 'PUT':
+        post = Post.objects.filter(id=pid).get()
+        print("hereerere", pid, post)
+        if post.posts.filter(post_id=pid).exists():
+            like_obj = Like.objects.filter(user_id=request.user.id, post_id=post.id).get()
+            like_obj.post_id.remove(post)
+            like_obj.user_id.remove(request.user)
+
+            return JsonResponse({"message": "Post unliked successfully."}, status=201)
+
+        return JsonResponse({"message": "Post was not found."}, status=404)
